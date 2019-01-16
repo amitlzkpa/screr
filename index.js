@@ -9,11 +9,13 @@ const shell = require('shelljs')
 
 
 
+let repoPath = ''
+repoPath = 'test-repo'
+
+
 
 let branch = 'master'
 
-let repoPath = ''
-repoPath = '<repo>'
 
 
 shell.cd(repoPath)
