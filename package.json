@@ -10,7 +10,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=8.9.1"
+  },
   "dependencies": {
+    "create-html": "^4.1.0",
     "shelljs": "^0.8.3"
   }
 }

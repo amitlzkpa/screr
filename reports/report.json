@@ -1,0 +1,90 @@
+{
+    ".gitignore": {
+        "Freddie Mercury": 1,
+        "_": 1
+    },
+    "use_folder/1.txt": {
+        "Freddie Mercury": 7,
+        "Brian May": 3,
+        "_": 10
+    },
+    "use_folder/2.txt": {
+        "Freddie Mercury": 2,
+        "Roger Taylor": 2,
+        "_": 4
+    },
+    "use_folder/3.txt": {
+        "Freddie Mercury": 4,
+        "Roger Taylor": 1,
+        "Brian May": 5,
+        "_": 10
+    },
+    "use_folder/AA/1.txt": {
+        "Freddie Mercury": 10,
+        "_": 10
+    },
+    "use_folder/AA/AAA/1.txt": {
+        "Freddie Mercury": 2,
+        "_": 2
+    },
+    "use_folder/AA/AAA/2.txt": {
+        "Farookh Bulsara": 3,
+        "_": 3
+    },
+    "use_folder/AA/AAA/3.txt": {
+        "Roger Taylor": 3,
+        "Brian May": 5,
+        "Freddie Mercury": 2,
+        "_": 10
+    },
+    "use_folder/AA/AAB/1.txt": {
+        "Brian May": 10,
+        "Farookh Bulsara": 4,
+        "_": 14
+    },
+    "use_folder/AB/ABA/1.txt": {
+        "Brian May": 2,
+        "Freddie Mercury": 1,
+        "Roger Taylor": 3,
+        "_": 6
+    },
+    "use_folder/AB/ABA/2.txt": {
+        "Brian May": 10,
+        "_": 10
+    },
+    "use_folder/AB/ABA/3.txt": {
+        "Brian May": 10,
+        "_": 10
+    },
+    "use_folder/AC/ACB/1.txt": {
+        "Freddie Mercury": 5,
+        "Brian May": 2,
+        "Farookh Bulsara": 3,
+        "_": 10
+    },
+    "use_folder/AC/ACB/2.txt": {
+        "Freddie Mercury": 5,
+        "Brian May": 5,
+        "_": 10
+    },
+    "use_folder/AC/ACB/3.txt": {
+        "Brian May": 10,
+        "_": 10
+    },
+    "use_folder/AE/1.txt": {
+        "Freddie Mercury": 3,
+        "Brian May": 6,
+        "Farookh Bulsara": 4,
+        "_": 13
+    },
+    "use_folder/AE/2.txt": {
+        "Roger Taylor": 9,
+        "Freddie Mercury": 1,
+        "_": 10
+    },
+    "use_folder/AE/3.txt": {
+        "Roger Taylor": 10,
+        "_": 10
+    },
+    "": {}
+}
