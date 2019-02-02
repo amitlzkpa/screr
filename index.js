@@ -10,16 +10,6 @@ const hash = require('object-hash')
 
 let debug = true
 
-let repoPath = ''
-repoPath = 'test-repo'
-
-let branch = 'master'
-let format = 'html'
-let saveLoc = 'G:/00\ \ \ \ CURRENT/Node/screr/reports'
-
-createReport(repoPath, branch, format, saveLoc)
-
-
 
 
 
@@ -42,7 +32,6 @@ function saveReport(scores, format, savePath, reportName) {
           <p>Contribution Report</p>
           <hr>
           <h3>${reportName}</h3>
-          <p>${new Date().toLocaleString()}</p>
           <hr>
           <div id="accordion">
         `
@@ -75,6 +64,7 @@ function saveReport(scores, format, savePath, reportName) {
       reportHTML +=
         `
           </div>
+          <p>${new Date().toString()}</p>
         </div>
         `
       reportLoc = path.join(savePath, reportName)
@@ -197,3 +187,14 @@ function countScoresForFile(fPath, commit='HEAD') {
   }
   return {}
 }
+
+
+
+
+
+module.exports.createReport = createReport
+module.exports.countScoresForRepo = countScoresForRepo
+module.exports.countScoresForFile = countScoresForFile
+module.exports.createReport = createReport
+module.exports.createReport = createReport
+module.exports.createReport = createReport
