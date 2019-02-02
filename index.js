@@ -40,12 +40,19 @@ function saveReport(scores, format, savePath, reportName) {
         `
         <div class="container">
           <p>Contribution Report</p>
+          <hr>
           <h3>${reportName}</h3>
+          <p>${new Date().toLocaleString()}</p>
           <hr>
           <div id="accordion">
         `
       for(let fileData in scores) {
         let fNameHash = hash(fileData)
+        let fScr = ''
+        for (let contributor in scores[fileData]) {
+          if(contributor == '_') continue
+          fScr += `<p>${contributor}: ${scores[fileData][contributor]}(${((scores[fileData][contributor]*100)/scores[fileData]['_']).toFixed(2)}%)</p>`
+        }
         let h =
           `
           <div class="card">
@@ -58,7 +65,7 @@ function saveReport(scores, format, savePath, reportName) {
             </div>
             <div id="c_${fNameHash}" class="collapse" aria-labelledby="h_${fNameHash}" data-parent="#accordion">
               <div class="card-body">
-                ${scores[fileData]}
+                ${fScr}
               </div>
             </div>
           </div>
