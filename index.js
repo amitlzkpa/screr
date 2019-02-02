@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
 const shell = require('shelljs')
 const createHTML = require('create-html')
@@ -14,9 +14,9 @@ let repoPath = ''
 repoPath = 'test-repo'
 
 let branch = 'master'
-let format = 'json'
+let format = 'html'
 let saveLoc = 'G:/00\ \ \ \ CURRENT/Node/screr/reports'
-let reportName = 'report'
+let reportName = 'contribution-report'
 
 createReport(repoPath, branch, format, saveLoc, reportName)
 
@@ -35,22 +35,36 @@ function debugLog(str) {
 
 function saveReport(scores, format, savePath, reportName) {
   let reportLoc = ''
+  format = format.toLowerCase()
   switch(format) {
-    case (format.toLowerCase() == 'html'): {
-      // burn
+    case ('html'): {
+      reportLoc = path.join(savePath, reportName)
+      let html = createHTML({
+        title: `Contribution Report - ${reportName}`,
+        css: ['./css/bootstrap.min.css', './css/bootstrap-grid.min.css'],
+        script: ['./css/bootstrap.min.js']
+      })
+      let htmlFilePath = path.join(reportLoc, 'index.html')
+      fs.outputFile(htmlFilePath, html, function (err) {
+        if(err) {
+          console.log(err)
+          return
+        }
+        debugLog(`Report saved at: ${reportLoc}`)
+      })
       break
     }
     default: {
-        let reportJSON = JSON.stringify(scores, null, 4)
-        if(!reportName.toLowerCase().endsWith('.json')) reportName += '.json'
-        reportLoc = path.join(savePath, reportName)
-        fs.writeFile(reportLoc, reportJSON, function(err) {
-          if(err) {
-            debugLog(err);
-            return;
-          }
-          debugLog(`Report saved at: ${reportLoc}`)
-        })
+      let reportJSON = JSON.stringify(scores, null, 4)
+      if(!reportName.toLowerCase().endsWith('.json')) reportName += '.json'
+      reportLoc = path.join(savePath, reportName)
+      fs.outputFile(reportLoc, reportJSON, function(err) {
+        if(err) {
+          debugLog(err);
+          return;
+        }
+        debugLog(`Report saved at: ${reportLoc}`)
+      })
       break
     }
   }
