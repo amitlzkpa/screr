@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const path = require('path')
 const shell = require('shelljs')
 const createHTML = require('create-html')
-
+const hash = require('object-hash')
 
 
 
@@ -16,10 +16,8 @@ repoPath = 'test-repo'
 let branch = 'master'
 let format = 'html'
 let saveLoc = 'G:/00\ \ \ \ CURRENT/Node/screr/reports'
-let reportName = 'contribution-report'
 
-createReport(repoPath, branch, format, saveLoc, reportName)
-
+createReport(repoPath, branch, format, saveLoc)
 
 
 
@@ -38,16 +36,45 @@ function saveReport(scores, format, savePath, reportName) {
   format = format.toLowerCase()
   switch(format) {
     case ('html'): {
-      let reportHTML = '\t<div class="container">\n'
+      let reportHTML =
+        `
+        <div class="container">
+          <p>Contribution Report</p>
+          <h3>${reportName}</h3>
+          <hr>
+          <div id="accordion">
+        `
       for(let fileData in scores) {
-        reportHTML += `\t\t<p>${fileData}</p>\n`
+        let fNameHash = hash(fileData)
+        let h =
+          `
+          <div class="card">
+            <div class="card-header" id="h_${fNameHash}">
+              <h5 class="mb-0">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#c_${fNameHash}" aria-expanded="false" aria-controls="c_${fNameHash}">
+                  ${fileData}
+                </button>
+              </h5>
+            </div>
+            <div id="c_${fNameHash}" class="collapse" aria-labelledby="h_${fNameHash}" data-parent="#accordion">
+              <div class="card-body">
+                ${scores[fileData]}
+              </div>
+            </div>
+          </div>
+          `
+        reportHTML += h
       }
-      reportHTML += '\t</div>'
+      reportHTML +=
+        `
+          </div>
+        </div>
+        `
       reportLoc = path.join(savePath, reportName)
       let html = createHTML({
         title: `Contribution Report - ${reportName}`,
-        css: ['./css/bootstrap.min.css', './css/bootstrap-grid.min.css'],
-        script: ['./css/bootstrap.min.js'],
+        css: ['./css/bootstrap.min.css'],
+        script: ['./js/jquery-3.3.1.min.js', './js/bootstrap.min.js'],
         body: reportHTML
       })
       let htmlFilePath = path.join(reportLoc, 'index.html')
@@ -82,7 +109,9 @@ function saveReport(scores, format, savePath, reportName) {
 
 
 
-function createReport(repoPath, branch, format, saveLoc, reportName) {
+function createReport(repoPath, branch, format, saveLoc) {
+  let projName = repoPath.match(/([^\/]*)\/*$/)[1]
+  let reportName = `${projName}[${branch}]`
   debugLog(`Starting analysis with following specs`)
   debugLog(`\tRepo: ${repoPath}`)
   debugLog(`\tBranch: ${branch}`)
