@@ -38,11 +38,17 @@ function saveReport(scores, format, savePath, reportName) {
   format = format.toLowerCase()
   switch(format) {
     case ('html'): {
+      let reportHTML = '\t<div class="container">\n'
+      for(let fileData in scores) {
+        reportHTML += `\t\t<p>${fileData}</p>\n`
+      }
+      reportHTML += '\t</div>'
       reportLoc = path.join(savePath, reportName)
       let html = createHTML({
         title: `Contribution Report - ${reportName}`,
         css: ['./css/bootstrap.min.css', './css/bootstrap-grid.min.css'],
-        script: ['./css/bootstrap.min.js']
+        script: ['./css/bootstrap.min.js'],
+        body: reportHTML
       })
       let htmlFilePath = path.join(reportLoc, 'index.html')
       fs.outputFile(htmlFilePath, html, function (err) {
@@ -52,6 +58,8 @@ function saveReport(scores, format, savePath, reportName) {
         }
         debugLog(`Report saved at: ${reportLoc}`)
       })
+      let staticFilesPath = path.join(__dirname, 'templates')
+      fs.copySync(staticFilesPath, reportLoc)
       break
     }
     default: {
