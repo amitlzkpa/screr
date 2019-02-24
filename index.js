@@ -111,7 +111,7 @@ function saveReport(scores, format, savePath, reportName) {
  * @param {string} [branch='master']      Branch to create report for.
  * @param {string} [format='json']        Report out format (html/json).
  * @param {string} [saveLoc='report']     Path to save the report (Paths relative to project path).
- * @param {boolean} [debug=report]        Set to true to see report generation logs.
+ * @param {boolean} [debug=report]        Log generation report logs to console.
  */
 function createReport(repoPath, branch='master', format='json', saveLoc='report', debug=false) {
   let projName = repoPath.match(/([^\/]*)\/*$/)[1]
@@ -128,6 +128,7 @@ function createReport(repoPath, branch='master', format='json', saveLoc='report'
   debugLog(`\tReport Name: ${reportName}`)
 
   let scores = countScoresForRepo(repoPath, branch)
+  // let collatedScores = getCumulativeScores(scores)
   saveReport(scores, format, saveLoc, reportName)
 
 }
@@ -135,7 +136,7 @@ function createReport(repoPath, branch='master', format='json', saveLoc='report'
 
 
 
-
+// Go through given score and collate all contributions by contributors.
 function getCumulativeScores(scores) {
   let motherDict = {}
   let i = 0
@@ -160,7 +161,7 @@ function getCumulativeScores(scores) {
  * Create the contribution report object for the given repo.
  * @param {string} repoPath               Path for repository.
  * @param {string} [commit='HEAD']        Commit to create report for.
- * @returns {object}                      Object containing list of all files with scores.
+ * @returns {object}                      Object containing key-value pairs of all files with scores.
  */
 function countScoresForRepo(repoPath, commit='HEAD') {
   shell.cd(repoPath)
@@ -185,7 +186,7 @@ function countScoresForRepo(repoPath, commit='HEAD') {
  * Create the contribution score for the given file.
  * @param {string} filePath               Path for file.
  * @param {string} [commit='HEAD']        Commit to calculate scores at.
- * @returns {object}                      Object containing list of contributors and scores.
+ * @returns {object}                      Object containing key-value pairs of contributors and scores.
  */
 function countScoresForFile(filePath, commit='HEAD') {
   let fileBlameReport = shell.exec(`git blame --line-porcelain -w -M -e ${commit} ${filePath}`, {silent:true})
