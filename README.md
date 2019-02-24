@@ -2,7 +2,7 @@
 Create contribution reports for your git repository.
 
 
-[!Sample report](/files/images/sample.png)
+![Sample report](/files/images/sample.png)
 
 
 # Install
