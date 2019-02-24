@@ -8,14 +8,14 @@ const hash = require('object-hash')
 
 
 
-let debug = false
+let DEBUG = false
 
 
 
 
 
 function debugLog(str) {
-  if(debug) console.log(str)
+  if(DEBUG) console.log(str)
 }
 
 
@@ -67,7 +67,7 @@ function saveReport(scores, format, savePath, reportName) {
           <p>${new Date().toString()}</p>
         </div>
         `
-      reportLoc = path.join(savePath, reportName)
+      reportLoc = path.resolve(path.join(savePath, reportName))
       let html = createHTML({
         title: `Contribution Report - ${reportName}`,
         css: ['./css/bootstrap.min.css'],
@@ -89,7 +89,7 @@ function saveReport(scores, format, savePath, reportName) {
     default: {
       let reportJSON = JSON.stringify(scores, null, 4)
       if(!reportName.toLowerCase().endsWith('.json')) reportName += '.json'
-      reportLoc = path.join(savePath, reportName)
+      reportLoc = path.resolve(path.join(savePath, reportName))
       fs.outputFile(reportLoc, reportJSON, function(err) {
         if(err) {
           debugLog(err);
@@ -105,10 +105,21 @@ function saveReport(scores, format, savePath, reportName) {
 
 
 
-
-function createReport(repoPath, branch, format, saveLoc) {
+/**
+ * Create and saves the contribution report for the given repo.
+ * @param {string} repoPath               Path for repository.
+ * @param {string} [branch='master']      Branch to create report for.
+ * @param {string} [format='json']        Report out format (html/json).
+ * @param {string} [saveLoc='report']     Path to save the report (Paths relative to project path).
+ * @param {boolean} [debug=report]        Set to true to see report generation logs.
+ */
+function createReport(repoPath, branch='master', format='json', saveLoc='report', debug=false) {
   let projName = repoPath.match(/([^\/]*)\/*$/)[1]
   let reportName = `${projName}[${branch}]`
+  DEBUG=debug
+  if (!fs.existsSync(repoPath) || !fs.existsSync(path.join(repoPath, '.git'))) {
+    throw `Directory doesn't exist or is not a git repository: ${repoPath}`
+  }
   debugLog(`Starting analysis with following specs`)
   debugLog(`\tRepo: ${repoPath}`)
   debugLog(`\tBranch: ${branch}`)
@@ -117,7 +128,6 @@ function createReport(repoPath, branch, format, saveLoc) {
   debugLog(`\tReport Name: ${reportName}`)
 
   let scores = countScoresForRepo(repoPath, branch)
-  // let motherDict = getCumulativeScores(scores)
   saveReport(scores, format, saveLoc, reportName)
 
 }
@@ -146,8 +156,14 @@ function getCumulativeScores(scores) {
 
 
 
-function countScoresForRepo(rPath, commit='HEAD') {
-  shell.cd(rPath)
+/**
+ * Create the contribution report object for the given repo.
+ * @param {string} repoPath               Path for repository.
+ * @param {string} [commit='HEAD']        Commit to create report for.
+ * @returns {object}                      Object containing list of all files with scores.
+ */
+function countScoresForRepo(repoPath, commit='HEAD') {
+  shell.cd(repoPath)
   let lsTreeReport = shell.exec(`git ls-tree --full-tree -r --name-only ${commit}`, {silent:true})
 
   if (lsTreeReport.code == 0) {
@@ -165,8 +181,14 @@ function countScoresForRepo(rPath, commit='HEAD') {
 
 
 
-function countScoresForFile(fPath, commit='HEAD') {
-  let fileBlameReport = shell.exec(`git blame --line-porcelain -w -M -e ${commit} ${fPath}`, {silent:true})
+/**
+ * Create the contribution score for the given file.
+ * @param {string} filePath               Path for file.
+ * @param {string} [commit='HEAD']        Commit to calculate scores at.
+ * @returns {object}                      Object containing list of contributors and scores.
+ */
+function countScoresForFile(filePath, commit='HEAD') {
+  let fileBlameReport = shell.exec(`git blame --line-porcelain -w -M -e ${commit} ${filePath}`, {silent:true})
   if(fileBlameReport.code == 0) {
     let fileBlameRes = fileBlameReport.stdout
     let scoreDict = {}
@@ -195,6 +217,3 @@ function countScoresForFile(fPath, commit='HEAD') {
 module.exports.createReport = createReport
 module.exports.countScoresForRepo = countScoresForRepo
 module.exports.countScoresForFile = countScoresForFile
-module.exports.createReport = createReport
-module.exports.createReport = createReport
-module.exports.createReport = createReport
