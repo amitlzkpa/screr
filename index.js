@@ -8,7 +8,7 @@ const hash = require('object-hash')
 
 
 
-let debug = true
+let debug = false
 
 
 

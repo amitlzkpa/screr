@@ -1,7 +1,7 @@
 {
   "name": "screr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Create contribution reports for your git repository.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
