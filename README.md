@@ -31,6 +31,10 @@ screr.createReport(repoPath, branch, format, saveLoc, viewLogs)
 ```
 
 
+# Requirments
+Please make sure you have [git](https://git-scm.com/) installed on your computer and accessible from the shell.
+
+
 # Reports
 Screr will create reports for measuring contributions by each contributor.  
 It supports creating reports in JSON and HTML.  
