@@ -42,6 +42,14 @@ For the given repository and branch it goes through each file and counts the num
 The score is formatted and presented for view(HTML) or for machine consumption(JSON).  
 
 
+# Samples
+| Project        													| Report  														| Date  			|
+| ---																| ---															| ---				|
+| [Bitcoin](https://github.com/bitcoin/bitcoin)        				| [html](/files/samples/bitcoin[master]/index.html)  			| Jun 19 2019  		|
+| [D3](https://github.com/d3/d3)	                  				| [html](/files/samples/d3[master]/index.html)  				| Jun 19 2019  		|
+| [public-apis](https://github.com/public-apis/public-apis)     	| [html](/files/samples/public-apis[master]/index.html)  		| Jun 19 2019  		|
+
+
 # Status
 It is the first release and still in development.
 
