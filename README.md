@@ -21,12 +21,15 @@ const screr = require('screr')
 let repoPath = '<path-to-repo>'
 let branch = 'master'
 let format = 'html'
-let saveLoc = 'report'
+let saveLoc = '<folder-to-save-in>'
 let viewLogs = true
 
 
 // Create the report
 screr.createReport(repoPath, branch, format, saveLoc, viewLogs)
+
+// Use defaults(branch='master', format='json', saveLoc='report', viewLogs=false)
+// screr.createReport(repoPath)
 
 ```
 
