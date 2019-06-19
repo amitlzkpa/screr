@@ -46,11 +46,11 @@ The score is formatted and presented for view(HTML) or for machine consumption(J
 
 
 # Samples
-| Project        													| Report  																	| Date  			|
-| ---																| ---																		| ---				|
-| [Bitcoin](https://github.com/bitcoin/bitcoin)        				| [html](http://127.0.0.1:3000/reports/bitcoin[master]/index.html)  		| Jun 19 2019  		|
-| [D3](https://github.com/d3/d3)	                  				| [html](http://127.0.0.1:3000/reports/bitcoin[master]/index.html)  		| Jun 19 2019  		|
-| [public-apis](https://github.com/public-apis/public-apis)     	| [html](http://127.0.0.1:3000/reports/bitcoin[master]/index.html)  		| Jun 19 2019  		|
+| Project        													| Report  																				| Date  			|
+| ---																| ---																					| ---				|
+| [Bitcoin](https://github.com/bitcoin/bitcoin)        				| [html](https://screr-website.herokuapp.com/reports/bitcoin[master]/index.html)  		| Jun 19 2019  		|
+| [D3](https://github.com/d3/d3)	                  				| [html](https://screr-website.herokuapp.com/reports/d3[master]/index.html)  			| Jun 19 2019  		|
+| [public-apis](https://github.com/public-apis/public-apis)     	| [html](https://screr-website.herokuapp.com/reports/public-apis[master]/index.html)  	| Jun 19 2019  		|
 
 
 # Status
