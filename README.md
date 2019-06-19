@@ -51,6 +51,9 @@ The score is formatted and presented for view(HTML) or for machine consumption(J
 | [Bitcoin](https://github.com/bitcoin/bitcoin)        				| [html](https://screr-website.herokuapp.com/reports/bitcoin[master]/index.html)  		| Jun 19 2019  		|
 | [D3](https://github.com/d3/d3)	                  				| [html](https://screr-website.herokuapp.com/reports/d3[master]/index.html)  			| Jun 19 2019  		|
 | [public-apis](https://github.com/public-apis/public-apis)     	| [html](https://screr-website.herokuapp.com/reports/public-apis[master]/index.html)  	| Jun 19 2019  		|
+| [React](https://github.com/facebook/react)     					| [html](https://screr-website.herokuapp.com/reports/react[master]/index.html)  		| Jun 19 2019  		|
+| [jQuery](https://github.com/jquery/jquery)     					| [html](https://screr-website.herokuapp.com/reports/jquery[master]/index.html)  		| Jun 19 2019  		|
+| [scikit-learn](https://github.com/scikit-learn/scikit-learn)     	| [html](https://screr-website.herokuapp.com/reports/scikit-learn[master]/index.html)  	| Jun 19 2019  		|
 
 
 # Status
