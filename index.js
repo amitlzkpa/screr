@@ -92,7 +92,7 @@ function saveReport(scores, format, savePath, reportName) {
       reportLoc = path.resolve(path.join(savePath, reportName))
       fs.outputFile(reportLoc, reportJSON, function(err) {
         if(err) {
-          debugLog(err);
+          console.log(err);
           return;
         }
         debugLog(`Report saved at: ${reportLoc}`)
@@ -128,7 +128,9 @@ function createReport(repoPath, branch='master', format='json', saveLoc='report'
   debugLog(`\tReport Name: ${reportName}`)
 
   let scores = countScoresForRepo(repoPath, branch)
-  // let collatedScores = getCumulativeScores(scores)
+  let collatedScores = getCumulativeScores(scores)
+  debugLog(`Calculating collated scores...`)
+  scores['_'] = collatedScores
   saveReport(scores, format, saveLoc, reportName)
 
 }
@@ -146,8 +148,6 @@ function getCumulativeScores(scores) {
       if (motherDict[s] === undefined) motherDict[s] = 0
       motherDict[s] += scrDict[s]
     }
-    debugLog(`${i+1}. \t${file}`)
-    debugLog(scrDict)
     i++
   }
   return motherDict
@@ -170,9 +170,11 @@ function countScoresForRepo(repoPath, commit='HEAD') {
   if (lsTreeReport.code == 0) {
     let files = lsTreeReport.stdout.split('\n')
     let fileScores = {}
+    debugLog(`Counting scores for ${files.length} files...`)
     for (let i = 0; i < files.length; i++) {
       let scrDict = countScoresForFile(files[i], commit)
       fileScores[files[i]] = scrDict
+      debugLog(`Completed ${i}/${files.length} files.`);
     }
     return fileScores
   }
