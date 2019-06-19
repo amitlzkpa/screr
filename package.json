@@ -1,6 +1,6 @@
 {
   "name": "screr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create contribution reports for your git repository.",
   "main": "index.js",
   "scripts": {
