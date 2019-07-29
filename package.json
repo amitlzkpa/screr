@@ -1,6 +1,6 @@
 {
   "name": "screr",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Create contribution reports for your git repository.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,12 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "homepage": "http://screr-website.herokuapp.com",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/amitlzkpa/screr.git"
+  },
+  "author": "amitlzkpa",
   "license": "ISC",
   "engines": {
     "node": ">=8.9.1"
