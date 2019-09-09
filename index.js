@@ -33,11 +33,21 @@ function saveReport(scores, format, savePath, reportName) {
           <hr>
           <h3>${reportName}</h3>
           <hr>
+        `
+      let fScr = ''
+      // for cumulative scores for the full repo
+      for (let contributor in scores[reportName]) {
+        if(contributor == '_') continue
+        fScr += `<p>${contributor}: ${scores[reportName][contributor]}(${((scores[reportName][contributor]*100)/scores[reportName]['_']).toFixed(2)}%)</p>`
+      }
+      reportHTML += fScr
+      reportHTML +=
+        `
+          <hr>
           <div id="accordion">
         `
       for(let fileData in scores) {
         let fNameHash = hash(fileData)
-        let fScr = ''
         for (let contributor in scores[fileData]) {
           if(contributor == '_') continue
           fScr += `<p>${contributor}: ${scores[fileData][contributor]}(${((scores[fileData][contributor]*100)/scores[fileData]['_']).toFixed(2)}%)</p>`
@@ -128,7 +138,8 @@ function createReport(repoPath, branch='master', format='json', saveLoc='report'
   debugLog(`\tReport Name: ${reportName}`)
 
   let scores = countScoresForRepo(repoPath, branch)
-  // let collatedScores = getCumulativeScores(scores)
+  let collatedScores = getCumulativeScores(scores)
+  scores[reportName] = collatedScores
   saveReport(scores, format, saveLoc, reportName)
 
 }
