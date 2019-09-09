@@ -3,7 +3,7 @@ const path = require('path')
 const shell = require('shelljs')
 const createHTML = require('create-html')
 const hash = require('object-hash')
-
+const removeTrailingPathSeparator = require('remove-trailing-path-separator')
 
 
 
@@ -102,7 +102,7 @@ function saveReport(scores, format, savePath, reportName) {
       reportLoc = path.resolve(path.join(savePath, reportName))
       fs.outputFile(reportLoc, reportJSON, function(err) {
         if(err) {
-          debugLog(err);
+          console.log(err);
           return;
         }
         debugLog(`Report saved at: ${reportLoc}`)
@@ -124,20 +124,22 @@ function saveReport(scores, format, savePath, reportName) {
  * @param {boolean} [debug=report]        Log generation report logs to console.
  */
 function createReport(repoPath, branch='master', format='json', saveLoc='report', debug=false) {
-  let projName = repoPath.match(/([^\/]*)\/*$/)[1]
+  let cleanedRepoPath = removeTrailingPathSeparator(repoPath)
+  let projName = cleanedRepoPath.match(/([^\/]*)\/*$/)[1]
   let reportName = `${projName}[${branch}]`
   DEBUG=debug
-  if (!fs.existsSync(repoPath) || !fs.existsSync(path.join(repoPath, '.git'))) {
-    throw `Directory doesn't exist or is not a git repository: ${repoPath}`
+  if (!fs.existsSync(cleanedRepoPath) || !fs.existsSync(path.join(cleanedRepoPath, '.git'))) {
+    throw new Error(`Directory doesn't exist or is not a git repository: ${cleanedRepoPath}`)
   }
   debugLog(`Starting analysis with following specs`)
-  debugLog(`\tRepo: ${repoPath}`)
+  debugLog(`\tRepo: ${cleanedRepoPath}`)
   debugLog(`\tBranch: ${branch}`)
   debugLog(`\tReport Format: ${format}`)
   debugLog(`\tSave Location: ${saveLoc}`)
   debugLog(`\tReport Name: ${reportName}`)
 
   let scores = countScoresForRepo(repoPath, branch)
+  debugLog(`Calculating collated scores...`)
   let collatedScores = getCumulativeScores(scores)
   scores[reportName] = collatedScores
   saveReport(scores, format, saveLoc, reportName)
@@ -157,8 +159,6 @@ function getCumulativeScores(scores) {
       if (motherDict[s] === undefined) motherDict[s] = 0
       motherDict[s] += scrDict[s]
     }
-    debugLog(`${i+1}. \t${file}`)
-    debugLog(scrDict)
     i++
   }
   return motherDict
@@ -181,9 +181,11 @@ function countScoresForRepo(repoPath, commit='HEAD') {
   if (lsTreeReport.code == 0) {
     let files = lsTreeReport.stdout.split('\n')
     let fileScores = {}
+    debugLog(`Counting scores for ${files.length} files...`)
     for (let i = 0; i < files.length; i++) {
       let scrDict = countScoresForFile(files[i], commit)
       fileScores[files[i]] = scrDict
+      debugLog(`Completed ${i}/${files.length} files.`);
     }
     return fileScores
   }
