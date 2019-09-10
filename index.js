@@ -20,80 +20,86 @@ function debugLog(str) {
 
 
 
+function makeHTML(scores, savePath, reportName) {
+  let reportHTML =
+    `
+    <div class="container">
+      <p>Contribution Report</p>
+      <hr>
+      <h3>${reportName}</h3>
+      <hr>
+    `
+  let fScr = ''
+  // for cumulative scores for the full repo
+  for (let contributor in scores[reportName]) {
+    if(contributor == '_') continue
+    fScr += `<p>${contributor}: ${scores[reportName][contributor]}(${((scores[reportName][contributor]*100)/scores[reportName]['_']).toFixed(2)}%)</p>`
+  }
+  reportHTML += fScr
+  reportHTML +=
+    `
+      <hr>
+      <div id="accordion">
+    `
+  for(let fileData in scores) {
+    let fNameHash = hash(fileData)
+    for (let contributor in scores[fileData]) {
+      if(contributor == '_') continue
+      fScr += `<p>${contributor}: ${scores[fileData][contributor]}(${((scores[fileData][contributor]*100)/scores[fileData]['_']).toFixed(2)}%)</p>`
+    }
+    let h =
+      `
+      <div class="card">
+        <div class="card-header" id="h_${fNameHash}">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#c_${fNameHash}" aria-expanded="false" aria-controls="c_${fNameHash}">
+              ${fileData}
+            </button>
+          </h5>
+        </div>
+        <div id="c_${fNameHash}" class="collapse" aria-labelledby="h_${fNameHash}" data-parent="#accordion">
+          <div class="card-body">
+            ${fScr}
+          </div>
+        </div>
+      </div>
+      `
+    reportHTML += h
+  }
+  reportHTML +=
+    `
+      </div>
+      <p>${new Date().toString()}</p>
+    </div>
+    `
+  reportLoc = path.resolve(path.join(savePath, reportName))
+  let html = createHTML({
+    title: `Contribution Report - ${reportName}`,
+    css: ['./css/bootstrap.min.css'],
+    script: ['./js/jquery-3.3.1.min.js', './js/bootstrap.min.js', './js/chart.min.js'],
+    body: reportHTML
+  })
+  let htmlFilePath = path.join(reportLoc, 'index.html')
+  fs.outputFile(htmlFilePath, html, function (err) {
+    if(err) {
+      console.log(err)
+      return
+    }
+    debugLog(`Report saved at: ${reportLoc}`)
+  })
+  let staticFilesPath = path.join(__dirname, 'templates')
+  fs.copySync(staticFilesPath, reportLoc)
+}
+
+
+
 
 function saveReport(scores, format, savePath, reportName) {
   let reportLoc = ''
   format = format.toLowerCase()
   switch(format) {
     case ('html'): {
-      let reportHTML =
-        `
-        <div class="container">
-          <p>Contribution Report</p>
-          <hr>
-          <h3>${reportName}</h3>
-          <hr>
-        `
-      let fScr = ''
-      // for cumulative scores for the full repo
-      for (let contributor in scores[reportName]) {
-        if(contributor == '_') continue
-        fScr += `<p>${contributor}: ${scores[reportName][contributor]}(${((scores[reportName][contributor]*100)/scores[reportName]['_']).toFixed(2)}%)</p>`
-      }
-      reportHTML += fScr
-      reportHTML +=
-        `
-          <hr>
-          <div id="accordion">
-        `
-      for(let fileData in scores) {
-        let fNameHash = hash(fileData)
-        for (let contributor in scores[fileData]) {
-          if(contributor == '_') continue
-          fScr += `<p>${contributor}: ${scores[fileData][contributor]}(${((scores[fileData][contributor]*100)/scores[fileData]['_']).toFixed(2)}%)</p>`
-        }
-        let h =
-          `
-          <div class="card">
-            <div class="card-header" id="h_${fNameHash}">
-              <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#c_${fNameHash}" aria-expanded="false" aria-controls="c_${fNameHash}">
-                  ${fileData}
-                </button>
-              </h5>
-            </div>
-            <div id="c_${fNameHash}" class="collapse" aria-labelledby="h_${fNameHash}" data-parent="#accordion">
-              <div class="card-body">
-                ${fScr}
-              </div>
-            </div>
-          </div>
-          `
-        reportHTML += h
-      }
-      reportHTML +=
-        `
-          </div>
-          <p>${new Date().toString()}</p>
-        </div>
-        `
-      reportLoc = path.resolve(path.join(savePath, reportName))
-      let html = createHTML({
-        title: `Contribution Report - ${reportName}`,
-        css: ['./css/bootstrap.min.css'],
-        script: ['./js/jquery-3.3.1.min.js', './js/bootstrap.min.js'],
-        body: reportHTML
-      })
-      let htmlFilePath = path.join(reportLoc, 'index.html')
-      fs.outputFile(htmlFilePath, html, function (err) {
-        if(err) {
-          console.log(err)
-          return
-        }
-        debugLog(`Report saved at: ${reportLoc}`)
-      })
-      let staticFilesPath = path.join(__dirname, 'templates')
-      fs.copySync(staticFilesPath, reportLoc)
+      makeHTML(scores, savePath, reportName);
       break
     }
     default: {
@@ -228,6 +234,7 @@ function countScoresForFile(filePath, commit='HEAD') {
 
 
 
+module.exports.makeHTML = makeHTML
 module.exports.createReport = createReport
 module.exports.countScoresForRepo = countScoresForRepo
 module.exports.countScoresForFile = countScoresForFile
