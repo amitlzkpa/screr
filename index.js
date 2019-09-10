@@ -21,6 +21,7 @@ function debugLog(str) {
 
 
 function makeHTML(scores, savePath, reportName) {
+  console.log(reportName);
   let reportHTML =
     `
     <div class="container">
@@ -29,12 +30,22 @@ function makeHTML(scores, savePath, reportName) {
       <h3>${reportName}</h3>
       <hr>
     `
+  let repKey = `${reportName}[master]`;
+  // console.log(scores);
+  // console.log(scores[repKey]);
   let fScr = ''
   // for cumulative scores for the full repo
-  for (let contributor in scores[reportName]) {
+  for (let contributor in scores[repKey]) {
     if(contributor == '_') continue
-    fScr += `<p>${contributor}: ${scores[reportName][contributor]}(${((scores[reportName][contributor]*100)/scores[reportName]['_']).toFixed(2)}%)</p>`
+    console.log(contributor);
+    fScr += `<p>${contributor}: ${scores[repKey][contributor]}(${((scores[repKey][contributor]*100)/scores[repKey]['_']).toFixed(2)}%)</p>`
+    let id = hash(contributor);
+    console.log(id);
+    let fileStr = `<p>
+                    <canvas id="chart"></canvas>
+                   </p>`
   }
+  return;
   reportHTML += fScr
   reportHTML +=
     `
