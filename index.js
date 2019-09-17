@@ -42,40 +42,40 @@ function makeHTML(scores, savePath, reportName) {
     scoreDataStr += str + '\n'
   }
   let cumulData = {
-    fNameHash: hash(reportName),
-    fileName: reportName,
-    fScr: scoreDataStr
+    id: 'overall',
+    name: 'overall',
+    content: scoreDataStr
   }
   let cumulDataStr = accordionWrapper(cumulData)
 
-  let filesDataStr = ''
-  for(let fileName in scores) {
-    if(fileName == repKey) continue
-    let fNameHash = hash(fileName)
-  let fScr = ''
-    for (let contributor in scores[fileName]) {
+  let allFilesDataStr = ''
+  for(let name in scores) {
+    if(name == repKey) continue
+    let id = hash(name)
+    let content = ''
+    for (let contributor in scores[name]) {
       if(contributor == repKey) continue
       let scoreData = {
         contributor: contributor,
-        score: scores[fileName][contributor],
-        percentage: ((scores[fileName][contributor]*100)/scores[fileName][repKey]).toFixed(2)
+        score: scores[name][contributor],
+        percentage: ((scores[name][contributor]*100)/scores[name][repKey]).toFixed(2)
       }
       let str = scoreDataTemplate(scoreData)
-      fScr += str + '\n'
+      content += str + '\n'
     }
     let fileData = {
-      fNameHash: fNameHash,
-      fileName: fileName,
-      fScr: fScr
+      id: id,
+      name: name,
+      content: content
     }
     let fileDataStr = accordionWrapper(fileData)
-    filesDataStr += fileDataStr + '\n'
+    allFilesDataStr += fileDataStr + '\n'
   }
 
   let reportData = {
     reportName: reportName,
     cumulativeData: cumulDataStr,
-    fileData: filesDataStr
+    fileData: allFilesDataStr
   }
   let reportHTML = baseTemplate(reportData)
 
@@ -241,7 +241,7 @@ function countScoresForFile(filePath, commit='HEAD') {
 
 
 async function test() {
-  console.log();
+  console.log('nothing...');
 }
 
 
