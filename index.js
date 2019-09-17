@@ -3,6 +3,7 @@ const path = require('path')
 const shell = require('shelljs')
 const createHTML = require('create-html')
 const hash = require('object-hash')
+const Handlebars = require('handlebars')
 const removeTrailingPathSeparator = require('remove-trailing-path-separator')
 
 
@@ -10,6 +11,12 @@ const removeTrailingPathSeparator = require('remove-trailing-path-separator')
 
 let DEBUG = false
 
+
+
+
+const baseTemplate = Handlebars.compile(fs.readFileSync(__dirname + '/templates/handlebars/base.html').toString())
+const accordionWrapper = Handlebars.compile(fs.readFileSync(__dirname + '/templates/handlebars/accordion-wrapper.html').toString())
+const scoreDataTemplate = Handlebars.compile(fs.readFileSync(__dirname + '/templates/handlebars/score-data.html').toString())
 
 
 
@@ -21,72 +28,61 @@ function debugLog(str) {
 
 
 function makeHTML(scores, savePath, reportName) {
-  console.log(reportName);
-  let reportHTML =
-    `
-    <div class="container">
-      <p>Contribution Report</p>
-      <hr>
-      <h3>${reportName}</h3>
-      <hr>
-    `
-  let repKey = `${reportName}[master]`;
-  // console.log(scores);
-  // console.log(scores[repKey]);
-  let fScr = ''
+  let repKey = `_`
+  let scoreDataStr = ''
   // for cumulative scores for the full repo
   for (let contributor in scores[repKey]) {
-    if(contributor == '_') continue
-    console.log(contributor);
-    fScr += `<p>${contributor}: ${scores[repKey][contributor]}(${((scores[repKey][contributor]*100)/scores[repKey]['_']).toFixed(2)}%)</p>`
-    let id = hash(contributor);
-    console.log(id);
-    let fileStr = `<p>
-                    <canvas id="chart"></canvas>
-                   </p>`
-  }
-  return;
-  reportHTML += fScr
-  reportHTML +=
-    `
-      <hr>
-      <div id="accordion">
-    `
-  for(let fileData in scores) {
-    let fNameHash = hash(fileData)
-    for (let contributor in scores[fileData]) {
-      if(contributor == '_') continue
-      fScr += `<p>${contributor}: ${scores[fileData][contributor]}(${((scores[fileData][contributor]*100)/scores[fileData]['_']).toFixed(2)}%)</p>`
+    if(contributor == repKey) continue
+    let scoreData = {
+      contributor: contributor,
+      score: scores[repKey][contributor],
+      percentage: ((scores[repKey][contributor]*100)/scores[repKey][repKey]).toFixed(2)
     }
-    let h =
-      `
-      <div class="card">
-        <div class="card-header" id="h_${fNameHash}">
-          <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" data-target="#c_${fNameHash}" aria-expanded="false" aria-controls="c_${fNameHash}">
-              ${fileData}
-            </button>
-          </h5>
-        </div>
-        <div id="c_${fNameHash}" class="collapse" aria-labelledby="h_${fNameHash}" data-parent="#accordion">
-          <div class="card-body">
-            ${fScr}
-          </div>
-        </div>
-      </div>
-      `
-    reportHTML += h
+    let str = scoreDataTemplate(scoreData)
+    scoreDataStr += str + '\n'
   }
-  reportHTML +=
-    `
-      </div>
-      <p>${new Date().toString()}</p>
-    </div>
-    `
+  let cumulData = {
+    fNameHash: hash(reportName),
+    fileName: reportName,
+    fScr: scoreDataStr
+  }
+  let cumulDataStr = accordionWrapper(cumulData)
+
+  let filesDataStr = ''
+  for(let fileName in scores) {
+    if(fileName == repKey) continue
+    let fNameHash = hash(fileName)
+  let fScr = ''
+    for (let contributor in scores[fileName]) {
+      if(contributor == repKey) continue
+      let scoreData = {
+        contributor: contributor,
+        score: scores[fileName][contributor],
+        percentage: ((scores[fileName][contributor]*100)/scores[fileName][repKey]).toFixed(2)
+      }
+      let str = scoreDataTemplate(scoreData)
+      fScr += str + '\n'
+    }
+    let fileData = {
+      fNameHash: fNameHash,
+      fileName: fileName,
+      fScr: fScr
+    }
+    let fileDataStr = accordionWrapper(fileData)
+    filesDataStr += fileDataStr + '\n'
+  }
+
+  let reportData = {
+    reportName: reportName,
+    cumulativeData: cumulDataStr,
+    fileData: filesDataStr
+  }
+  let reportHTML = baseTemplate(reportData)
+
   reportLoc = path.resolve(path.join(savePath, reportName))
   let html = createHTML({
     title: `Contribution Report - ${reportName}`,
-    css: ['./css/bootstrap.min.css'],
+    css: ['./css/bootstrap.min.css', './css/style.css'],
     script: ['./js/jquery-3.3.1.min.js', './js/bootstrap.min.js', './js/chart.min.js'],
     body: reportHTML
   })
@@ -158,7 +154,7 @@ function createReport(repoPath, branch='master', format='json', saveLoc='report'
   let scores = countScoresForRepo(repoPath, branch)
   debugLog(`Calculating collated scores...`)
   let collatedScores = getCumulativeScores(scores)
-  scores[reportName] = collatedScores
+  scores['_'] = collatedScores
   saveReport(scores, format, saveLoc, reportName)
 
 }
@@ -244,6 +240,13 @@ function countScoresForFile(filePath, commit='HEAD') {
 
 
 
+async function test() {
+  console.log();
+}
+
+
+
+module.exports.test = test
 
 module.exports.makeHTML = makeHTML
 module.exports.createReport = createReport
