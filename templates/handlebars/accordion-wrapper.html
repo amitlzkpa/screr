@@ -5,6 +5,103 @@
   <div id="c_{{& id}}" class="collapse" aria-labelledby="h_{{& id}}" data-parent="#accordion">
     <div class="card-body">
     	<div class="row">
+			<div class="col">
+				<div style="height: 20px;">
+					<canvas id="chart_{{& id}}"></canvas>
+				</div>
+				<script type="text/javascript">
+					barData = {
+							labels: ["2014"],
+							datasets: [
+							{
+								data: [29],
+								backgroundColor: "#c15e00",
+							},
+							{
+								data: [37],
+								backgroundColor: "#01d643",
+							},
+							{
+								data: [2],
+								backgroundColor: "#6f0832",
+							},
+							{
+								data: [8],
+								backgroundColor: "#bca70a",
+							},
+							{
+								data: [2],
+								backgroundColor: "#610daa",
+							},
+							{
+								data: [1],
+								backgroundColor: "#012a08",
+							},
+							{
+								data: [2],
+								backgroundColor: "#c50f90",
+							},
+							{
+								data: [1],
+								backgroundColor: "#1f1389",
+							},
+							{
+								data: [1],
+								backgroundColor: "#69a57a",
+							}
+							]
+						};
+
+					barOptions = {
+						responsive: true,
+						maintainAspectRatio: false,
+						tooltips: {
+							enabled: false,
+						},
+						scales: {
+							xAxes: [{
+								ticks: {
+									display:false
+								},
+								scaleLabel:{
+									display:false
+								},
+								gridLines: {
+									display:false,
+									zeroLineWidth: 0
+								},
+								display: false,
+								stacked: true
+							}],
+							yAxes: [{
+								ticks: {
+									display:false
+								},
+								scaleLabel:{
+									display:false
+								},
+								gridLines: {
+									display:false,
+								},
+								display: false,
+								stacked: true
+							}]
+						},
+						legend:{
+							display:false
+						},
+					};
+
+					ctx = document.getElementById("chart_{{& id}}");
+					barChart = new Chart(ctx, {
+						type: 'horizontalBar',
+						data: barData,
+						options: barOptions,
+					});
+				</script>
+			</div>
+    	</div>
+    	<div class="row">
 			{{& content}}
 		</div>
     </div>
