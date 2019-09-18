@@ -61,6 +61,7 @@ function makeHTML(scores, savePath, reportName) {
     if(name == repKey) continue
     let id = hash(name)
     let content = ''
+    let fileContribs = []
     for (let contributor in scores[name]) {
       if(contributor == repKey) continue
       let scoreData = {
@@ -68,13 +69,15 @@ function makeHTML(scores, savePath, reportName) {
         score: scores[name][contributor],
         percentage: ((scores[name][contributor]*100)/scores[name][repKey]).toFixed(2)
       }
+      fileContribs.push(scores[name][contributor])
       let str = scoreDataTemplate(scoreData)
       content += str + '\n'
     }
     let fileData = {
       id: id,
       name: name,
-      content: content
+      content: content,
+      contribs: fileContribs
     }
     let fileDataStr = accordionWrapper(fileData)
     allFilesDataStr += fileDataStr + '\n'
