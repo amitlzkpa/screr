@@ -19,6 +19,11 @@ const accordionWrapper = Handlebars.compile(fs.readFileSync(__dirname + '/templa
 const scoreDataTemplate = Handlebars.compile(fs.readFileSync(__dirname + '/templates/handlebars/score-data.html').toString())
 
 
+Handlebars.registerHelper('randomRGBA', function(items, options) {
+  let r = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`;
+  return r;
+});
+
 
 
 function debugLog(str) {
@@ -30,6 +35,7 @@ function debugLog(str) {
 function makeHTML(scores, savePath, reportName) {
   let repKey = `_`
   let scoreDataStr = ''
+  let contribs = []
   // for cumulative scores for the full repo
   for (let contributor in scores[repKey]) {
     if(contributor == repKey) continue
@@ -38,13 +44,15 @@ function makeHTML(scores, savePath, reportName) {
       score: scores[repKey][contributor],
       percentage: ((scores[repKey][contributor]*100)/scores[repKey][repKey]).toFixed(2)
     }
+    contribs.push(scores[repKey][contributor])
     let str = scoreDataTemplate(scoreData)
     scoreDataStr += str + '\n'
   }
   let cumulData = {
     id: 'overall',
     name: 'overall',
-    content: scoreDataStr
+    content: scoreDataStr,
+    contribs: contribs
   }
   let cumulDataStr = accordionWrapper(cumulData)
 
