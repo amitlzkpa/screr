@@ -1,93 +1,90 @@
 
 <script type="text/javascript" src="js/chart.min.js"></script>
 
-<div class="graph_container" width="900">
+<div class="graph_container">
   <canvas id="Chart1"></canvas>
 </div>
 <script type="text/javascript">
   var barOptions_stacked = {
-      tooltips: {
-          enabled: true
-      },
-      hover :{
-          animationDuration:0
-      },
-      scales: {
-          xAxes: [{
-              ticks: {
-                  beginAtZero:true,
-                  fontSize:11
-              },
-              scaleLabel:{
-                  display:false
-              },
-              gridLines: {
-              }, 
-              stacked: true
-          }],
-          yAxes: [{
-              gridLines: {
-                  display:false,
-                  color: "#fff",
-                  zeroLineColor: "#fff",
-                  zeroLineWidth: 0
-              },
-              ticks: {
-                  fontSize:11
-              },
-              stacked: true
-          }]
-      },
-      legend:{
+    tooltips: {
+      enabled: true,
+    },
+    scales: {
+      xAxes: [{
+        ticks: {
           display:false
-      },
-      
-      animation: {
-          onComplete: function () {
-              var chartInstance = this.chart;
-              var ctx = chartInstance.ctx;
-              ctx.textAlign = "left";
-              ctx.fillStyle = "#fff";
-
-              Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
-                  var meta = chartInstance.controller.getDatasetMeta(i);
-                  Chart.helpers.each(meta.data.forEach(function (bar, index) {
-                      data = dataset.data[index];
-                      if(i==0){
-                          ctx.fillText(data, 50, bar._model.y+4);
-                      } else {
-                          ctx.fillText(data, bar._model.x-25, bar._model.y+4);
-                      }
-                  }),this)
-              }),this);
-          }
-      },
-      pointLabelFontFamily : "Quadon Extra Bold",
-      scaleFontFamily : "Quadon Extra Bold",
+        },
+        scaleLabel:{
+          display:false
+        },
+        gridLines: {
+          display:false,
+        }, 
+        stacked: true
+      }],
+      yAxes: [{
+        gridLines: {
+          display:false,
+        },
+        scaleLabel:{
+          display:false
+        },
+        ticks: {
+          display:false
+        },
+        stacked: true
+      }]
+    },
+    legend:{
+      display:false
+    },
   };
 
   var ctx = document.getElementById("Chart1");
   var myChart = new Chart(ctx, {
-      type: 'horizontalBar',
-      data: {
-          labels: ["2014"],
-          
-          datasets: [{
-              data: [727],
-              backgroundColor: "rgba(63,103,126,1)",
-              hoverBackgroundColor: "rgba(50,90,100,1)"
-          },{
-              data: [238],
-              backgroundColor: "rgba(163,103,126,1)",
-              hoverBackgroundColor: "rgba(140,85,100,1)"
-          },{
-              data: [1238],
-              backgroundColor: "rgba(63,203,226,1)",
-              hoverBackgroundColor: "rgba(46,185,235,1)"
-          }]
+    type: 'horizontalBar',
+    data: {
+      labels: ["2014"],
+      datasets: [
+      {
+        data: [29],
+        backgroundColor: "#c15e00",
       },
-
-      options: barOptions_stacked,
+      {
+        data: [37],
+        backgroundColor: "#01d643",
+      },
+      {
+        data: [2],
+        backgroundColor: "#6f0832",
+      },
+      {
+        data: [8],
+        backgroundColor: "#bca70a",
+      },
+      {
+        data: [2],
+        backgroundColor: "#610daa",
+      },
+      {
+        data: [1],
+        backgroundColor: "#012a08",
+      },
+      {
+        data: [2],
+        backgroundColor: "#c50f90",
+      },
+      {
+        data: [1],
+        backgroundColor: "#1f1389",
+      },
+      {
+        data: [1],
+        backgroundColor: "#69a57a",
+      }
+      ]
+    },
+    options: barOptions_stacked,
   });
 </script>
 
