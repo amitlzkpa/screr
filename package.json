@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "keywords": [],
-  "homepage": "http://screr-website.herokuapp.com",
+  "homepage": "http://screr-website.onrender.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/amitlzkpa/screr.git"
