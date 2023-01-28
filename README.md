@@ -46,19 +46,15 @@ The score is formatted and presented for view(HTML) or for machine consumption(J
 
 
 # Samples
-| Project        													| Report  																				| Date  			|
-| ---																| ---																					| ---				|
-| [awesome](https://github.com/sindresorhus/awesome)            | [html](https://screr-website.herokuapp.com/reports/awesome[master]/index.html)    | Sep 19 2019     |
-| [Bitcoin](https://github.com/bitcoin/bitcoin)        				| [html](https://screr-website.herokuapp.com/reports/bitcoin[master]/index.html)  		| Sep 19 2019  		|
-| [bootstrap](https://github.com/twbs/bootstrap)     				| [html](https://screr-website.herokuapp.com/reports/bootstrap[master]/index.html)  	| Sep 19 2019  		|
-| [D3](https://github.com/d3/d3)	                  				| [html](https://screr-website.herokuapp.com/reports/d3[master]/index.html)  			| Sep 19 2019  		|
-| [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp)              | [html](https://screr-website.herokuapp.com/reports/freeCodeCamp[master]/index.html)     | Sep 19 2019     |
-| [jQuery](https://github.com/jquery/jquery)     					| [html](https://screr-website.herokuapp.com/reports/jquery[master]/index.html)  		| Sep 19 2019  		|
-| [public-apis](https://github.com/public-apis/public-apis)     	| [html](https://screr-website.herokuapp.com/reports/public-apis[master]/index.html)  	| Sep 19 2019  		|
-| [React](https://github.com/facebook/react)     					| [html](https://screr-website.herokuapp.com/reports/react[master]/index.html)  		| Sep 19 2019  		|
-| [scikit-learn](https://github.com/scikit-learn/scikit-learn)     	| [html](https://screr-website.herokuapp.com/reports/scikit-learn[master]/index.html)  	| Sep 19 2019  		|
-| [three.js](https://github.com/mrdoob/three.js/tree/master)     	| [html](https://screr-website.herokuapp.com/reports/three.js[master]/index.html)  		| Sep 19 2019  		|
-
-
-# Status
-WIP
+| Project                                 | Report                                          | Date        |
+| ---                               | ---                                         | ---       |
+| [awesome](https://github.com/sindresorhus/awesome)            | [html](https://screr-website.onrender.com/reports/awesome[master]/index.html)    | Sep 19 2019     |
+| [Bitcoin](https://github.com/bitcoin/bitcoin)               | [html](https://screr-website.onrender.com/reports/bitcoin[master]/index.html)      | Sep 19 2019     |
+| [bootstrap](https://github.com/twbs/bootstrap)            | [html](https://screr-website.onrender.com/reports/bootstrap[master]/index.html)    | Sep 19 2019     |
+| [D3](https://github.com/d3/d3)                            | [html](https://screr-website.onrender.com/reports/d3[master]/index.html)       | Sep 19 2019     |
+| [freeCodeCamp](https://github.com/freeCodeCamp/freeCodeCamp)              | [html](https://screr-website.onrender.com/reports/freeCodeCamp[master]/index.html)     | Sep 19 2019     |
+| [jQuery](https://github.com/jquery/jquery)              | [html](https://screr-website.onrender.com/reports/jquery[master]/index.html)     | Sep 19 2019     |
+| [public-apis](https://github.com/public-apis/public-apis)       | [html](https://screr-website.onrender.com/reports/public-apis[master]/index.html)    | Sep 19 2019     |
+| [React](https://github.com/facebook/react)              | [html](https://screr-website.onrender.com/reports/react[master]/index.html)      | Sep 19 2019     |
+| [scikit-learn](https://github.com/scikit-learn/scikit-learn)      | [html](https://screr-website.onrender.com/reports/scikit-learn[master]/index.html)   | Sep 19 2019     |
+| [three.js](https://github.com/mrdoob/three.js/tree/master)      | [html](https://screr-website.onrender.com/reports/three.js[master]/index.html)     | Sep 19 2019     |
